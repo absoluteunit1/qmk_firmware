@@ -16,15 +16,16 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-//                                                    DEFAULT LAYER
+//                                                   DEFAULT LAYER
 	[0] = LAYOUT_split_3x5_3(
 	    KC_Q, KC_W, KC_E, KC_R, KC_T,                                   KC_Y, KC_U, KC_I, KC_O, KC_P,
 	    LSFT_T(KC_A), LALT_T(KC_S), LGUI_T(KC_D), LCTL_T(KC_F), KC_G,   KC_H, RCTL_T(KC_J), RGUI_T(KC_K), RALT_T(KC_L), RSFT_T(KC_SCLN),
-	    KC_Z, KC_X, KC_C, KC_V, KC_B,                                   KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,
+	    HYPR_T(KC_Z), KC_X, KC_C, KC_V, KC_B,                           KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH,
 	    KC_LEAD, LT(1, KC_TAB), LT(2, KC_SPC),                          LT(3, KC_BSPC), LT(4, KC_ESC), LT(5, KC_DEL)
 	),
 
-    //                                                TAB HOLD
+
+    //                                                 TAB HOLD
 	[1] = LAYOUT_split_3x5_3(
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_LPRN, KC_RPRN, KC_NO, KC_CAPS,
         KC_LSFT, KC_LALT, KC_LGUI, KC_LCTL, KC_NO,                      KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, QK_CAPS_WORD_TOGGLE,
@@ -37,13 +38,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_TILD, KC_DQT, KC_QUOT, KC_AMPR, KC_NO,
 	    KC_LSFT, KC_LALT, KC_LGUI, KC_LCTL, KC_NO,                      KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_NO, //todo: consider putting caps word and caps here instead of tab latr
 	    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_GRV, KC_PIPE, KC_EXLM, KC_BSLS,
-	    KC_NO, KC_NO, KC_TRNS,                                          KC_ENT, KC_UNDS, KC_NO //todo: add something here; move underscore to a more intuitive position
+	    KC_NO, KC_NO, KC_TRNS,                                          KC_PMNS, KC_UNDS, KC_NO //todo: add something here; move underscore to a more intuitive position
     ),
-//                                                    BACKSPACE HOLD
+//                                                  BACKSPACE HOLD
 	[3] = LAYOUT_split_3x5_3(
 	    KC_AT, KC_1, KC_2, KC_3, KC_PLUS,                               KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-	    KC_0, KC_4, KC_5, KC_6, KC_PMNS,                                KC_NO, KC_J, KC_K, KC_L, KC_SCLN,
-	    KC_ASTR, KC_7, KC_8, KC_9, KC_EQL,                              KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS,
+	    KC_0, KC_4, KC_5, KC_6, KC_EQL,                                 KC_NO, KC_J, KC_K, KC_L, KC_SCLN,
+	    KC_ASTR, KC_7, KC_8, KC_9, KC_PMNS,                             KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS,
         KC_PERC, KC_HASH, KC_TRNS,                                      KC_TRNS, KC_NO, KC_NO
     ),
 //                                                    ESCAPE HOLD
