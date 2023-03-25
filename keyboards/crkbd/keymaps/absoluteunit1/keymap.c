@@ -3,32 +3,34 @@
 #include "qmk-vim/src/vim.h"
 #include "features/sentence_case.h"
 
-// TODO PRIORITY STACK
-// make entering and leave vim emulation easier
+enum custom_keycodes {
+    VIMTOG = SAFE_RANGE,
+    RAYCAST,
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[0] = LAYOUT_split_3x5_3(
 	    KC_Q, KC_W, KC_E, KC_R, KC_T,                                   KC_Y, KC_U, KC_I, KC_O, KC_P,
 	    LT(2, KC_A), KC_S, KC_D, KC_F, KC_G,                            KC_H, KC_J, KC_K, KC_L, LT(3, KC_SCLN),
 	    LSFT_T(KC_Z), LALT_T(KC_X), LGUI_T(KC_C), LCTL_T(KC_V), KC_B,   KC_N, RCTL_T(KC_M), RGUI_T(KC_COMM), RALT_T(KC_DOT), RSFT_T(KC_SLSH),
-	    LM(6, KC_NO), LT(1, KC_TAB), KC_SPC,                            KC_BSPC, LT(4, KC_MINUS), LT(5, KC_NO)
+	    LM(6, KC_NO), LT(1, KC_TAB), KC_SPC,                            KC_BSPC, LT(4, KC_NO), LT(5, KC_NO)
 	),
 	[1] = LAYOUT_split_3x5_3(
         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_LPRN, KC_RPRN, KC_NO, KC_CAPS,
         KC_LSFT, KC_LALT, KC_LGUI, KC_LCTL, KC_NO,                      KC_CIRC, KC_LCBR, KC_RCBR, KC_DLR, QK_CAPS_WORD_TOGGLE,
-        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_LBRC, KC_RBRC, KC_NO, KC_PIPE,
+        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_LBRC, KC_RBRC, KC_NO, KC_NO,
         KC_NO, KC_TRNS, KC_NO,                                          KC_NO, KC_NO, KC_NO
 	),
 	[2] = LAYOUT_split_3x5_3(
 	    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_TILD, KC_DQT, KC_QUOT, KC_AMPR, KC_PIPE,
-	    KC_TRNS, KC_NO, KC_NO, KC_NO, KC_NO,                            KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_ESC,
+	    KC_TRNS, KC_NO, KC_NO, KC_COLON, KC_NO,                         KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_ESC,
 	    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                              KC_NO, KC_GRV, KC_NO, KC_EXLM, KC_BSLS,
-	    KC_NO, KC_NO, KC_NO,                                            KC_NO, KC_NO, KC_NO
+	    KC_NO, KC_NO, VIMTOG,                                           RAYCAST, KC_UNDERSCORE, KC_NO
     ),
 	[3] = LAYOUT_split_3x5_3(
 	    KC_AT, KC_1, KC_2, KC_3, KC_PLUS,                               KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
 	    KC_0, KC_4, KC_5, KC_6, KC_EQL,                                 KC_NO, KC_J, KC_K, KC_NO, KC_NO,
-	    KC_ASTR, KC_7, KC_8, KC_9, KC_NO,                               KC_NO, KC_NO, KC_TRNS, KC_NO, KC_NO,
+	    KC_ASTR, KC_7, KC_8, KC_9, KC_MINUS,                            KC_NO, KC_NO, KC_TRNS, KC_NO, KC_NO,
         KC_PERC, KC_HASH, KC_TRNS,                                      KC_TRNS, KC_NO, KC_NO
     ),
 	[4] = LAYOUT_split_3x5_3(
@@ -70,13 +72,6 @@ void matrix_scan_user(void) {
   }
 }
 
-bool process_normal_mode_user(uint16_t keycode, const keyrecord_t *record) {
-    if (record->event.pressed && keycode == KC_Q) {
-        toggle_vim_mode();
-        return false;
-    }
-    return true;
-}
 
 const key_override_t left_word_override = ko_make_basic(MOD_MASK_ALT, KC_H, LALT(KC_LEFT));
 const key_override_t right_word_override = ko_make_basic(MOD_MASK_ALT, KC_L, LALT(KC_RIGHT));
@@ -96,6 +91,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_vim_mode(keycode, record)) { return false; }
 
     switch (keycode) {
+
+        case RAYCAST:
+            if (record->event.pressed) {
+                register_mods(MOD_BIT(KC_LGUI));
+                tap_code(KC_SPC);
+                unregister_mods(MOD_BIT(KC_LGUI));
+            }
+            return false;
+
+        case VIMTOG:
+            if (record->event.pressed) {
+                toggle_vim_mode();
+            }
+            return false;
+
         // This will do most of the grunt work with the keycodes.
         case KC_S:
             if (record->event.pressed && record->tap.count > 0) {
