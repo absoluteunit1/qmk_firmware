@@ -1,7 +1,7 @@
-LEADER_ENABLE = yes
 COMBO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
+TAP_DANCE_ENABLE = yes
 
 # sentence case
 SRC += features/sentence_case.c
