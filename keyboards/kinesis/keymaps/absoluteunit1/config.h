@@ -1,0 +1,8 @@
+#pragma once
+
+#define IGNORE_MOD_TAP_INTERRUPT
+#define PERMISSIVE_HOLD
+#define TAPPING_FORCE_HOLD
+#define TAPPING_TERM 185
+#define TAPPING_TOGGLE 1
+#define COMBO_COUNT 3
